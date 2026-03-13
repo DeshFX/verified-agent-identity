@@ -1,36 +1,27 @@
 name: Verify Human Identity
 
-on:
-workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
 verify:
 runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v3
 
 ```
-steps:
-  - name: Checkout repo
-    uses: actions/checkout@v3
-  
-  - name: Setup Node.js
-    uses: actions/setup-node@v3
+  - uses: actions/setup-node@v3
     with:
       node-version: 20
-  
-  - name: Install ClawHub
-    run: npm install -g clawhub
-  
-  - name: Install Verified Agent Identity
-    run: clawhub install verified-agent-identity
-  
-  - name: Install dependencies
-    run: |
+
+  - run: npm install -g clawhub
+
+  - run: clawhub install verified-agent-identity
+
+  - run: |
       cd scripts
       npm install
-  
-  - name: Create Ethereum Identity
-    run: node scripts/createNewEthereumIdentity.js
-  
-  - name: Link Human to Agent
-    run: node scripts/manualLinkHumanToAgent.js --challenge '{"name":"DeshFX","description":"DeshFX AI Agent"}'
+
+  - run: node scripts/createNewEthereumIdentity.js
+
+  - run: node scripts/manualLinkHumanToAgent.js --challenge '{"name":"DeshFX","description":"DeshFX AI Agent"}'
 ```
